@@ -26,7 +26,7 @@ public class MainPage extends Application {
         vBox.getChildren().addAll(Customerdetailprompt,SaleEntryprompt);
         vBox.setPadding(new Insets(10,10,10,10));
         vBox.setAlignment(Pos.CENTER);
-        Scene scene = new Scene(vBox,450,500);
+        Scene scene = new Scene(vBox,700,700);
         
         //poper closing for this class
         primaryStage.setOnCloseRequest(e ->{

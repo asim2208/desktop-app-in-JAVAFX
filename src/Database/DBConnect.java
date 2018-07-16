@@ -1,6 +1,7 @@
 package Database;
 
 import Entity.Customer;
+import Entity.Sale;
 
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -73,6 +74,19 @@ public class DBConnect {
             error.printStackTrace();
         }
     }
+    
+   /* public void enterSale(Sale sale){
+        try
+        {
+            getConnection();
+            
+            Statement s = conn.createStatement();
+            
+            //String saleStatement = " INSERT INTO SALEDETAILS (BILLNO,SHOPNAME,"
+        }
+    }*/
+    
+    
     //to show shopnames in combobox
     public static List<String> storename(){
         List<String>storename = new ArrayList();

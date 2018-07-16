@@ -1,6 +1,7 @@
 
 package firesafetyapp;
 import Entity.Customer;
+import Entity.Sale;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
@@ -9,6 +10,7 @@ import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.time.LocalDate;
 
 
 public class Handler {
@@ -24,8 +26,8 @@ public class Handler {
         {
             new PopUp("Name Error","Name or adress field is empty").alert();
         }
-        else if(/*!shopname.getText().matches("[a-zA-Z]+") ||*/ !shopcontact.getText().matches("\\d{10}")
-                || /*!streetadd.getText().matches("\\d+[ ](?:[A-Za-z0-9.-]+[ ]?)+") || !city.getText().matches("[a-zA-Z]+") ||*/ !zip.getText().matches("\\d{6}"))
+        else if(!shopname.getText().matches("[A-Z][a-zA-Z]*") || !shopcontact.getText().matches("\\d{10}")
+                || !streetadd.getText().matches("\\d+\\s+([a-zA-Z]+|[a-zA-Z]+\\s[a-zA-Z]+)") || !city.getText().matches("([a-zA-Z]+|[a-zA-Z]+\\\\s[a-zA-Z]+)") || !zip.getText().matches("\\d{5}"))
         {
             new PopUp("name error", "field not match").alert();
         }
@@ -44,6 +46,30 @@ public class Handler {
         
         return customer;
     }
+    
+    //validate sale and ensure completeness
+    public static Sale validateSale(TextField billno,LocalDate startdate ,ComboBox customername, TextField nextdate,TextField amount )
+    {
+       Sale sale = null;
+       
+       if(billno.getText().isEmpty()|| startdate == null || customername.getValue() == null || nextdate.getText().isEmpty() || amount.getText().isEmpty())
+       {
+           new PopUp("Error","some Field is empty").alert();
+       }
+       else
+       {
+           sale = new Sale();
+           
+           sale.setBillno(Integer.valueOf(billno.getText()));
+           sale.setStartdate(startdate);
+           sale.setShopname(customername.getValue().toString());
+           sale.setNextdate(nextdate.getText());
+           sale.setAmount(Integer.valueOf(amount.getText()));
+           
+       }
+       return sale;
+    }
+    
     //method to properly close the program
     public static void closeProgram(Stage window){
         

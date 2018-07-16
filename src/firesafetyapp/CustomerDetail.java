@@ -1,11 +1,8 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package firesafetyapp;
 
 import Database.DBConnect;
+import Entity.Customer;
+
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -15,13 +12,10 @@ import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
-import static firesafetyapp.Handler.*;
-import Entity.Customer;
 import javafx.scene.control.ComboBox;
-/**
- *
- * @author Asim Patel
- */
+
+import static firesafetyapp.Handler.*;
+
 public class CustomerDetail extends Application {
     
     DBConnect database = new DBConnect();
