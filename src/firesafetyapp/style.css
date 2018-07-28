@@ -1,0 +1,88 @@
+.root{
+    -fx-body-color : #F5F5F5;
+    -fx-outer-border : #cecece;
+    -fx-background-color:  #ffffff;
+
+}
+.button{
+    -fx-effect:dropshadow(one-pass-box,black,8,0.0,2,0);   
+    -fx-font:bold 10pt "Arial";
+    -fx-text-alignment:center;
+    -fx-font-size: 14;
+    -fx-text-fill: -fx-text-base-color;
+    -fx-background-radius: 4;
+    -fx-border-radius: 4;
+    -fx-pref-height: 20;
+    -fx-min-width:100;
+    -fx-background-color:#cccccc;
+    
+}
+.label{
+    -fx-font-size:18pt;
+    -fx-font:bold 10pt "Arial";
+    -fx-padding:10;
+}
+.textfield{
+    -fx-pref-tile-width: 100;
+}
+.datepicker > .arrow-button{
+    -fx-border-color: #dddddd #dddddd #b3b3b3 #dddddd ;
+    -fx-text-fill: #333333;
+}
+.date-picker > .arrow-button {
+	-fx-border-radius: 0 4 4 0;
+}
+.menu-button {
+    -fx-skin: "com.sun.javafx.scene.control.skin.MenuButtonSkin";
+    -fx-background-color: #cccccc;
+    -fx-background-insets: 0 0 -1 0, 0, 1, 2;
+    -fx-background-radius: 0;
+    -fx-padding: 0.0em; /* 0 */
+    -fx-text-fill: -fx-text-base-color;
+}
+
+/* TODO workaround for RT-19062 */
+.menu-button .label { -fx-text-fill: -fx-text-base-color; }
+
+.menu-button:focused {
+    -fx-color: beige;
+    -fx-background-color: -fx-focus-color, -fx-outer-border, -fx-inner-border, -fx-body-color;
+    -fx-background-insets: -1.4, 0, 1, 2;
+    -fx-background-radius: 0;
+}
+
+.menu-button:hover {
+    -fx-color: darkgreen;
+}
+
+.menu-button:armed {
+    -fx-color: greenyellow;
+}
+
+.HBox{
+    
+    -fx-padding: 10;
+    -fx-border-style: solid inside;
+    -fx-border-width: 2;
+    -fx-border-insets: 5;
+    -fx-border-radius: 5;
+    -fx-background-color:#ff0000;
+    -fx-background-radius: 5;
+    -fx-background-insets: 5;
+}
+header{
+    -fx-fill:#ffffff;
+    -fx-font:bold 50pt "Times New Roman" ;
+    -fx-stroke:black;
+    -fx-stroke-width:1;
+    
+}
+.background{
+    -fx-background-color: #e5e5e5;
+    -fx-border-radius:5;
+    -fx-border-width: 2;
+    -fx-border-insets: 5;
+    -fx-background-radius: 5;
+    -fx-background-insets: 5;
+    
+}

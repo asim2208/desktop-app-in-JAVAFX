@@ -3,10 +3,7 @@ package firesafetyapp;
 import Database.DBConnect;
 import Entity.Customer;
 
-import javafx.application.Application;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.layout.VBox;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
@@ -15,106 +12,131 @@ import javafx.stage.Stage;
 import javafx.scene.control.ComboBox;
 
 import static firesafetyapp.Handler.*;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.RowConstraints;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
+import javafx.scene.text.Text;
 
-public class CustomerDetail extends Application {
+public class CustomerDetail {
     
     DBConnect database = new DBConnect();
     
     private MainPage mainpage;
     private Customer customer;
+    private heading headingobj = new heading(); 
     Stage window;
+    String string = "Enter Customer Detail :";
     //basic gui item
-    private Label Shopnamelabel = new Label("Shop Name :");
-    private TextField shopnametf = new TextField();
+    private Label shopNamelabel = new Label("Shop Name :");
+    private TextField shopNametf = new TextField();
      
-    private Label Shopcontactlabel = new Label("Contact Number :");
-    private TextField Shopcontacttf = new TextField();
+    private Label shopContactlabel = new Label("Contact Number :");
+    private TextField shopContacttf = new TextField();
     
-      private Label StreetAddlabel = new Label("Street");
-    private TextField StreetAddtf =  new TextField();
+      private Label streetAddlabel = new Label("Street :");
+    private TextField streetAddtf =  new TextField();
     
-    private Label Arealabel = new Label("area");
-    private ComboBox<String> Areacombobox = new ComboBox<>();
+    private Label areaLabel = new Label("area");
+    private ComboBox<String> areaCombobox = new ComboBox<>();
     
-    private Label Citylabel = new Label("City");
-    private TextField Citytf = new TextField();
+    private Label cityLabel = new Label("City");
+    private TextField cityTf = new TextField();
     
-    private Label Ziplabel = new Label("ZipCode");
-    private TextField Ziptf = new TextField();
+    private Label zipLabel = new Label("ZipCode");
+    private TextField zipTf = new TextField();
    
-    private Button Enterbutton = new Button("Enter");
-    private Button Backbutton = new Button("Back");
-    private Button Clearbutton = new Button("Clear");
+    private Button enterButton = new Button("Enter");
+    private Button backButton = new Button("Back");
+    private Button clearButton = new Button("Clear");
+    //private Stage primaryStage;
     
-    public CustomerDetail(MainPage mainpage){
-        this.mainpage = mainpage;
-        Areacombobox.getItems().addAll(area());
+    public CustomerDetail(){
+       areaCombobox.getItems().addAll(area());
+        
     }
     
-    @Override
-    public void start(Stage primaryStage) {
-       VBox vBoxLayout = new VBox (10);
-       vBoxLayout.setPadding(new Insets(10,10,10,10));
+    
+    public GridPane addCustomerdetail() {
        
-       vBoxLayout.getChildren().addAll(Shopnamelabel,shopnametf,Shopcontactlabel,Shopcontacttf,
-               StreetAddlabel,StreetAddtf,Arealabel,Areacombobox,Citylabel,Citytf,Ziplabel,Ziptf,                         
-               Enterbutton,Clearbutton,Backbutton);
-       vBoxLayout.setAlignment(Pos.TOP_LEFT);
-       Scene scene = new Scene(vBoxLayout,600,500);
+       GridPane gridLayout = new GridPane();
+       gridLayout.setHgap(30);
+       //gridLayout.setVgap(1);
+       //gridLayout.setGridLinesVisible(true);
+       gridLayout.getStyleClass().addAll("background");
+       int numRow = 7;
+       for (int i=0;i<=11;i++){
+           RowConstraints rowCons= new RowConstraints();
+           //rowCons.setPercentHeight(numRow);
+           gridLayout.getRowConstraints().add(rowCons);
+       }
+       shopNametf.setPrefColumnCount(30);
+       streetAddtf.setPrefColumnCount(30);
+       shopContacttf.setPrefColumnCount(30);
+      
+       gridLayout.setPadding(new Insets(10,10,10,10));
+       gridLayout.add(shopNamelabel,0,1);
+       gridLayout.add(shopContactlabel,2,1);
+       gridLayout.add(shopNametf,0,2,2,1);
+      
+       gridLayout.add(shopContacttf,2,2,2,1);
+       gridLayout.add(streetAddlabel,0,3);
+       gridLayout.add(streetAddtf,0,4,2,1);
        
-       //static closing of progeram
-       primaryStage.setOnCloseRequest(e ->{
-           
-           e.consume();
-           closeProgram(primaryStage);
-       });
+       gridLayout.add(areaLabel,0,5);
+       gridLayout.add(cityLabel,1,5);
+       gridLayout.add(zipLabel,2,5);
+  
+       gridLayout.add(areaCombobox,0,6);
+       gridLayout.add(cityTf,1,6);
+       gridLayout.add(zipTf,2,6);
+       
+       HBox hBox = new HBox(10);
+       hBox.setPadding(new Insets(10,10,10,10));
+       hBox.getChildren().addAll(enterButton,clearButton,backButton);
+       gridLayout.add(hBox,0,7,2,3);
+       gridLayout.setAlignment(Pos.TOP_LEFT);
+       
+       gridLayout.add(headingobj.hBox(string),0,0,3,1);
        
        //returns to mainpage
        
-       Backbutton.setOnAction(e ->{
+     /* backButton.setOnAction(e ->{
            try{
                mainpage.start(primaryStage);
            }
            catch(Exception e1){
                e1.printStackTrace();
            }
-       });
+       });*/
        
        //enter customer data
-       Enterbutton.setOnAction(e ->{
+       enterButton.setOnAction(e ->{
            
            //ensure validity of data and generates and customer
-           customer = validateCustomer(shopnametf,Shopcontacttf,StreetAddtf,Areacombobox,Citytf,Ziptf);
+           customer = validateCustomer(shopNametf,shopContacttf,streetAddtf,areaCombobox,cityTf,zipTf);
            if (customer != null){
                database.enterCustomer(customer);
                new PopUp("sucsessfull","data added successfully").alert();
-               shopnametf.clear();
-               Shopcontacttf.clear();
-               StreetAddtf.clear();
-               Citytf.clear();
-               Ziptf.clear();
+               reset();
            }      
                    
        });
        
        //clear the data from form
-       Clearbutton.setOnAction(event ->{
+       clearButton.setOnAction(event ->{
            
-           shopnametf.clear();
-           Shopcontacttf.clear();
-           StreetAddtf.clear();
-           Citytf.clear();
-           Ziptf.clear();
+           reset();
        });
-       
-       primaryStage.setTitle("Customer Detail");
-       primaryStage.setScene(scene);
-       primaryStage.show();
+       return gridLayout;
     }
-
-    /**
-     * @param args the command line arguments
-     */
-   
-    
+    public void reset(){
+               shopNametf.clear();
+               shopContacttf.clear();
+               streetAddtf.clear();
+               areaCombobox.setValue(null);
+               cityTf.clear();
+               zipTf.clear();
+    }
 }

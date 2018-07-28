@@ -30,7 +30,8 @@ public class ConfirmBox {
            vBox.getChildren().addAll(messagelabel,staybutton,closebutton);
            
            Scene scene = new Scene(vBox,400,200);
-           
+           scene.getStylesheets().add(getClass().getResource("style.css").toExternalForm());
+        
            closebutton.setOnAction(e ->{
                 answer = true;
                 window.close();
