@@ -15,6 +15,7 @@ import java.util.Collections;
 import java.util.List;
 import java.time.LocalDate;
 import java.util.Date;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.geometry.Rectangle2D;
 import javafx.stage.Screen;
 
@@ -22,19 +23,18 @@ public class Handler {
 
     //validate agent and ensure completeness
     public static Customer validateCustomer(TextField shopname, TextField shopcontact, TextField streetadd, ComboBox area, TextField city, TextField zip) {
-        Customer customer = null;
+        Customer customer = new Customer();
+        customer = null;
 
         if (shopname.getText().isEmpty() || shopcontact.getText().isEmpty() || streetadd.getText().isEmpty()
                 || city.getText().isEmpty()
                 || zip.getText().isEmpty() || area.getValue() == null) {
-            new PopUp("Name Error", "Name or adress field is empty").alert();
-        } else if (/*!shopname.getText().matches("[A-Z][a-zA-Z]*") ||*/ !shopcontact.getText().matches("\\d{10}")
-                || /*!streetadd.getText().matches("\\d+\\s+([a-zA-Z]+|[a-zA-Z]+\\s[a-zA-Z]+)") || !city.getText().matches("([a-zA-Z]+|[a-zA-Z]+\\\\s[a-zA-Z]+)") ||*/ !zip.getText().matches("\\d{5}")) {
-            new PopUp("name error", "field not match").alert();
+            new PopUp("Name Error", "Field is Empty").alert();
+        } else if (!shopcontact.getText().matches("\\d{10}")) {
+            new PopUp("Name Error", "Contact must be 10 Digit").alert();
+        } else if (!zip.getText().matches("\\d{6}")) {
+            new PopUp("Error", "Zip Code must be 6 Digit").alert();
         } else {
-            customer = new Customer();
-
-            //customer.setId(new SecureRandom().nextInt(99999999) + 100000000);
             customer.setShopName(shopname.getText());
             customer.setShopCont(Long.valueOf(shopcontact.getText()));
             customer.setStreetAdd(streetadd.getText());
@@ -47,16 +47,15 @@ public class Handler {
     }
 
     //validate sale and ensure completeness
-    public static Sale validateSale(TextField billno, LocalDate startdate, ComboBox customername, TextField nextdate, String onekgQty, String threekgQty, String fivekgQty, String ninekgQty,String onekgAmt,String threekgAmt,String fivekgAmt,String ninekgAmt, TextField amount) {
-        Sale sale = null;
+    public static Sale validateSale(TextField billno, LocalDate startdate, ComboBox customername, TextField nextdate, String onekgQty, String twokgQty, String fourkgQty, String fivekgQty, String sixkgQty, String ninekgQty, String onekgAmt, String twokgAmt, String fourkgAmt, String fivekgAmt, String sixkgAmt, String ninekgAmt, TextField amount) {
+        Sale sale = new Sale();
         try {
             if (billno.getText().isEmpty() || startdate == null || customername.getValue() == null || nextdate.getText().isEmpty() || amount.getText().isEmpty()) {
-                new PopUp("Error", "some Field is empty").alert();
+                new PopUp("Error", "Field is Empty").alert();
             } else {
                 sale = new Sale();
                 Date ndd = new SimpleDateFormat("dd-MM-yyyy").parse(nextdate.getText());
                 java.sql.Date nd = new java.sql.Date(ndd.getTime());
-                //sale.setsaleid(new SecureRandom().nextInt(99999999) + 100000000);
                 sale.setBillno(Integer.valueOf(billno.getText()));
                 sale.setStartdate(java.sql.Date.valueOf(startdate));
                 sale.setShopname(customername.getValue().toString());
@@ -64,35 +63,51 @@ public class Handler {
                 if (onekgQty == null) {
                     onekgQty = "0";
                 }
-                if (threekgQty == null) {
-                    threekgQty = "0";
+                if (twokgQty == null) {
+                    twokgQty = "0";
+                }
+                if (fourkgQty == null) {
+                    fourkgQty = "0";
                 }
                 if (fivekgQty == null) {
                     fivekgQty = "0";
+                }
+                if (sixkgQty == null) {
+                    sixkgQty = "0";
                 }
                 if (ninekgQty == null) {
                     ninekgQty = "0";
                 }
                 sale.setOnekgqty(Integer.valueOf(onekgQty));
-                sale.setThreekgqty(Integer.valueOf(threekgQty));
+                sale.setTwokgqty(Integer.valueOf(twokgQty));
+                sale.setFourkgqty(Integer.valueOf(fourkgQty));
                 sale.setFivekgqty(Integer.valueOf(fivekgQty));
+                sale.setSixkgqty(Integer.valueOf(sixkgQty));
                 sale.setNinekgqty(Integer.valueOf(ninekgQty));
-                if (onekgAmt == null){
+                if (onekgAmt == null) {
                     onekgAmt = "0.00";
                 }
-                if (threekgAmt == null){
-                    threekgAmt = "0.00";
+                if (twokgAmt == null) {
+                    twokgAmt = "0.00";
                 }
-                if (fivekgAmt == null){
+                if (fourkgAmt == null) {
+                    fourkgAmt = "0.00";
+                }
+                if (fivekgAmt == null) {
                     fivekgAmt = "0.00";
                 }
-                if (ninekgAmt == null){
+                if (sixkgAmt == null) {
+                    sixkgAmt = "0.00";
+                }
+                if (ninekgAmt == null) {
                     ninekgAmt = "0.00";
                 }
-                sale.setonekgAmount(BigDecimal.valueOf(Double.valueOf(onekgAmt)));
-                sale.setthreekgAmount(BigDecimal.valueOf(Double.valueOf(threekgAmt)));
-                sale.setfivekgAmount(BigDecimal.valueOf(Double.valueOf(fivekgAmt)));
-                sale.setninekgAmount(BigDecimal.valueOf(Double.valueOf(ninekgAmt)));
+                sale.setOnekgamount(BigDecimal.valueOf(Double.valueOf(onekgAmt)));
+                sale.setTwokgamount(BigDecimal.valueOf(Double.valueOf(twokgAmt)));
+                sale.setFourkgamount(BigDecimal.valueOf(Double.valueOf(fourkgAmt)));
+                sale.setFivekgamount(BigDecimal.valueOf(Double.valueOf(fivekgAmt)));
+                sale.setSixkgamount(BigDecimal.valueOf(Double.valueOf(sixkgAmt)));
+                sale.setNinekgamount(BigDecimal.valueOf(Double.valueOf(ninekgAmt)));
                 sale.setAmount(BigDecimal.valueOf(Double.valueOf(amount.getText())));
 
             }
@@ -120,7 +135,7 @@ public class Handler {
 
     public static List<String> area() {
         List<String> area = new ArrayList<>();
-        
+
         area.add("Mulund");
         area.add("Nahur");
         area.add("Bhandup");
@@ -139,4 +154,35 @@ public class Handler {
         return visualBounds;
     }
 
+    public static List<String> month() {
+        List<String> month = new ArrayList<>();
+
+        month.add("January");
+        month.add("February");
+        month.add("March");
+        month.add("April");
+        month.add("May");
+        month.add("June");
+        month.add("July");
+        month.add("August");
+        month.add("September");
+        month.add("Octomber");
+        month.add("November");
+        month.add("December");
+        //Collections.sort()
+        return month;
+    }
+
+    public static List<Integer> year() {
+        List<Integer> year = new ArrayList<>();
+
+        year.add(2018);
+        year.add(2019);
+        year.add(2020);
+        year.add(2021);
+        year.add(2022);
+        year.add(2023);
+
+        return year;
+    }
 }

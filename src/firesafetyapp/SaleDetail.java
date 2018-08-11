@@ -37,7 +37,7 @@ public class SaleDetail {
     LocalDate date;
 
     
-    String[] names = new String[]{"1 KG", "3 KG", "5KG", "9KG"};
+    String[] names = new String[]{"1 KG", "2 KG", "4KG", "5KG", "6KG", "9KG"};
     String[] qty = new String[names.length];
     String[] amt = new String[names.length];
     
@@ -69,7 +69,8 @@ public class SaleDetail {
     private Button clearButton = new Button("clear");
     
     public SaleDetail(){
-       customerlist.getItems().addAll(DBConnect.storename()); 
+        reset();
+       customerlist.getItems().addAll(DBConnect.storename());
     }
 
     public GridPane addSaledetail() {
@@ -126,35 +127,43 @@ public class SaleDetail {
         gridPane.add(size[1], 0, 7);
         gridPane.add(size[2], 0, 8);
         gridPane.add(size[3], 0, 9);
+        gridPane.add(size[4], 0, 10);
+        gridPane.add(size[5], 0, 11);
 
         gridPane.add(Qty[0], 1, 6);
         gridPane.add(Qty[1], 1, 7);
         gridPane.add(Qty[2], 1, 8);
         gridPane.add(Qty[3], 1, 9);
+        gridPane.add(Qty[4],1,10);
+        gridPane.add(Qty[5],1,11);
         for (int j = 0; j < names.length; j++) {
             Qty[j].setPromptText("0");
         }
 
         gridPane.add(amount[0], 2, 6);
-        amount[0].setPromptText("400.00");
+        amount[0].setText("0.00");
         gridPane.add(amount[1], 2, 7);
-        amount[1].setPromptText("500.00");
+        amount[1].setText("0.00");
         gridPane.add(amount[2], 2, 8);
-        amount[2].setPromptText("600.00");
+        amount[2].setText("0.00");
         gridPane.add(amount[3], 2, 9);
-        amount[3].setPromptText("700.00");
-
-        gridPane.add(totalAmount, 0, 10);
-        gridPane.add(totalamounttf, 1, 10);
+        amount[3].setText("0.00");
+        gridPane.add(amount[4], 2, 10);
+        amount[4].setText("0.00");
+        gridPane.add(amount[5], 2, 11);
+        amount[5].setText("0.00");
+        
+        gridPane.add(totalAmount, 0, 12);
+        gridPane.add(totalamounttf, 1, 12);
 
         VBox vbox = new VBox(10);
         vbox.getChildren().addAll(enterButton, backButton, clearButton);
-        gridPane.add(vbox, 0, 11, 3, 1);
+        gridPane.add(vbox, 0, 13, 3, 1);
 
         customerlist.setEditable(true);
         startdate.setValue(LocalDate.now());
 
-        startdate.setConverter(new StringConverter<LocalDate>() {
+        startdate.setConverter(new StringConverter<LocalDate>(){
             DateTimeFormatter dateformatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
 
             @Override
@@ -175,7 +184,7 @@ public class SaleDetail {
                 }
 
             }
-        });
+});
         //to get date from datepicker and print it on textfield
         startdate.setOnAction(new EventHandler() {
             @Override
@@ -186,31 +195,7 @@ public class SaleDetail {
         });
         
         //to set amount per qty
-        Qty[0].textProperty().addListener((observable, oldvalue, newvalue) -> {
-            mul = BigDecimal.valueOf(Double.valueOf(newvalue));
-            val = mul.multiply(BigDecimal.valueOf(Double.valueOf(amount[0].getPromptText())));
-            amount[0].setText(String.valueOf(val));
-
-        });
-        Qty[1].textProperty().addListener((observable, oldvalue, newvalue) -> {
-            mul = BigDecimal.valueOf(Double.valueOf(newvalue));
-            val = mul.multiply(BigDecimal.valueOf(Double.valueOf(amount[1].getPromptText())));
-            amount[1].setText(String.valueOf(val));
-
-        });
-        Qty[2].textProperty().addListener((observable, oldvalue, newvalue) -> {
-            mul = BigDecimal.valueOf(Double.valueOf(newvalue));
-            val = mul.multiply(BigDecimal.valueOf(Double.valueOf(amount[2].getPromptText())));
-            amount[2].setText(String.valueOf(val));
-
-        });
-        Qty[3].textProperty().addListener((observable, oldvalue, newvalue) -> {
-            mul = BigDecimal.valueOf(Double.valueOf(newvalue));
-            val = mul.multiply(BigDecimal.valueOf(Double.valueOf(amount[3].getPromptText())));
-            amount[3].setText(String.valueOf(val));
-
-        });
-
+        
         // to print totalamount
         totalamounttf.setOnAction(new EventHandler() {
             @Override
@@ -242,7 +227,8 @@ public class SaleDetail {
             }
             
             //ensure validity of sale data
-            sale = validateSale(Billnotf, date, customerlist, nextdate, qty[0], qty[1], qty[2], qty[3],amt[0],amt[1],amt[2],amt[3], totalamounttf);
+            //sale = new Sale();
+            sale = validateSale(Billnotf, date, customerlist, nextdate, qty[0], qty[1], qty[2], qty[3],qty[4],qty[5],amt[0],amt[1],amt[2],amt[3],amt[4],amt[5], totalamounttf);
 
             if (sale != null) {
                 database.enterSale(sale);

@@ -4,6 +4,7 @@ import Database.DBConnect;
 import Entity.Customer;
 import static firesafetyapp.Handler.*;
 import java.util.ArrayList;
+import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;
 
@@ -45,6 +46,7 @@ public class editCustomer {
     private Button updateButton = new Button("Update");
    
     public editCustomer(){
+        reset();
     selectCustomer.getItems().addAll(DBConnect.storename());
     }
     public GridPane addGridpane(){
@@ -107,7 +109,7 @@ public class editCustomer {
     public ArrayList<String> editCustomer(String customername){
         //System.out.println(customerName);
         
-        ArrayList<String> list = new ArrayList<>();
+        ArrayList<String> list = null;
         list= DBConnect.getCustomer(customername);
         
         if (customername.equals(list.get(0))){
@@ -121,11 +123,11 @@ public class editCustomer {
         return list;
     }
     public void reset(){
-        selectCustomer.setValue(null);
+        //selectCustomer.setValue(null);
         shopNametf.clear();
         shopContacttf.clear();
         streetAddtf.clear();
-        areaCombobox.setValue(null);
+        //areaCombobox.setValue(null);
         cityTf.clear();
         zipTf.clear();
     }

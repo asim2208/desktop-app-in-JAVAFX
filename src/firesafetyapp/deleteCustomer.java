@@ -42,6 +42,7 @@ public class deleteCustomer {
     private Button deleteButton = new Button("Delete");
 
     public deleteCustomer() {
+        reset();
         selectCustomer.getItems().addAll(DBConnect.storename());
 
     }
@@ -105,7 +106,7 @@ public class deleteCustomer {
     private ArrayList<String> deleteCustomer(String customername) {
         //System.out.println(customerName);
 
-        ArrayList<String> list = new ArrayList<>();
+        ArrayList<String> list = null;
         list = DBConnect.getCustomer(customername);
 
         if (customername.equals(list.get(0))) {
@@ -120,7 +121,7 @@ public class deleteCustomer {
     }
 
     public void reset() {
-        selectCustomer.setValue(null);
+        //selectCustomer.setValue(null);
         shopNametf.clear();
         shopContacttf.clear();
         streetAddtf.clear();
